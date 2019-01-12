@@ -181,7 +181,7 @@ public class FXMLDocumentController implements Initializable {
     
     public void deleteSave() {
         String s = (String) saveList.valueProperty().getValue();
-        if(s.endsWith("txt")) {
+        if(s != null) {
             io.deleteFile(s);
             updateList();
             updateSaveList();
@@ -233,7 +233,6 @@ public class FXMLDocumentController implements Initializable {
                     case SECONDARY: 
                 }
             }
-            
         });
         
         list.setTooltip(new Tooltip("Left Click to Roll, Right Click to Select"));
