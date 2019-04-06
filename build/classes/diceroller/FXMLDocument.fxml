@@ -9,15 +9,15 @@
 <AnchorPane id="AnchorPane" prefHeight="701.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diceroller.FXMLDocumentController">
    <children>
       <TextField fx:id="addCount" layoutX="22.0" layoutY="22.0" prefHeight="31.0" prefWidth="62.0" promptText="Count" />
-      <TextField fx:id="addSides" layoutX="93.0" layoutY="22.0" prefHeight="31.0" prefWidth="53.0" promptText="Sides" />
       <Label layoutX="84.0" layoutY="27.0" text="d" />
-      <Button layoutX="497.0" layoutY="22.0" mnemonicParsing="false" onAction="#addCup" text="Add Cup" />
-      <TextField fx:id="addModifier" layoutX="157.0" layoutY="22.0" prefHeight="31.0" prefWidth="77.0" promptText="Modifier" />
+      <TextField fx:id="addSides" layoutX="93.0" layoutY="22.0" prefHeight="31.0" prefWidth="53.0" promptText="Sides" />
       <Label layoutX="146.0" layoutY="27.0" text="+" />
-      <ListView fx:id="list" layoutX="22.0" layoutY="69.0" prefHeight="476.0" prefWidth="557.0" />
+      <TextField fx:id="addModifier" layoutX="157.0" layoutY="22.0" prefHeight="31.0" prefWidth="77.0" promptText="Modifier" />
       <TextField fx:id="dropLowest" layoutX="251.0" layoutY="22.0" prefHeight="31.0" prefWidth="106.0" promptText="Drop Lowest" />
       <CheckBox fx:id="rerollOnes" layoutX="387.0" layoutY="17.0" mnemonicParsing="false" text="Reroll Ones" />
       <CheckBox fx:id="explode" layoutX="387.0" layoutY="38.0" mnemonicParsing="false" text="Explode" />
+      <Button layoutX="497.0" layoutY="22.0" mnemonicParsing="false" onAction="#addCup" text="Add Cup" />
+      <ListView fx:id="list" layoutX="22.0" layoutY="69.0" prefHeight="476.0" prefWidth="557.0" />
       <Button layoutX="179.0" layoutY="556.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="31.0" prefWidth="142.0" text="Remove Selected" />
       <Button layoutX="512.0" layoutY="556.0" mnemonicParsing="false" onAction="#rollAll" text="Roll All" />
       <Button layoutX="343.0" layoutY="556.0" mnemonicParsing="false" onAction="#duplicateSelected" text="Duplicate Selected" />

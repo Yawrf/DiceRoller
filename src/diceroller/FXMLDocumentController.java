@@ -183,7 +183,7 @@ public class FXMLDocumentController implements Initializable {
         if(s != null) {
             ch = (CupHolder) io.readObject(s);
             saveName.setText(s);
-            saveList.setValue(saveList.getPromptText());
+            saveList.setValue(null);
             updateList();
         }
     }
