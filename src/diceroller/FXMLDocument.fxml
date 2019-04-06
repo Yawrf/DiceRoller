@@ -28,6 +28,6 @@
       <Button layoutX="357.0" layoutY="656.0" mnemonicParsing="false" onAction="#deleteSave" text="Delete Saved Dice" />
       <Button layoutX="25.0" layoutY="556.0" mnemonicParsing="false" onAction="#removeAll" text="Remove All Dice" />
       <Label layoutX="415.0" layoutY="597.0" prefHeight="21.0" prefWidth="97.0" text="Files saved at: " wrapText="true" />
-      <Label layoutX="350.0" layoutY="618.0" prefHeight="21.0" prefWidth="238.0" text="C:\Program Files\Yawrf\Dice Roller\" />
+      <Label layoutX="350.0" layoutY="618.0" prefHeight="21.0" prefWidth="238.0" text="*:\Program Files\Yawrf\Dice Roller\" />
    </children>
 </AnchorPane>

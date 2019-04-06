@@ -27,6 +27,23 @@ public class Die implements Serializable{
         lastRoll = rand.nextInt(sides) + 1;
     }
     
+    public void roll(boolean reroll, boolean explode) {
+        lastRoll = roll(reroll, explode, 0);
+    }
+    
+    private int roll(boolean reroll, boolean explode, int current) {
+        int temp = rand.nextInt(sides) + 1;
+        
+        if(reroll && temp == 1) {
+            temp = roll(reroll, explode, current);
+        }
+        if(explode && temp == sides) {
+            temp += roll(reroll, explode, current);
+        }
+        
+        return temp;
+    }
+    
     public int read() {
         return lastRoll;
     }

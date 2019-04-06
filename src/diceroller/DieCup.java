@@ -77,6 +77,40 @@ public class DieCup implements Serializable{
         note = s;
     }
     
+    public void setNote(boolean sorted) {
+        String note = "";
+        boolean hold = false;
+        int sum = 0;
+        int[] sortList = sortRolls();
+        if(sorted) {
+            for(int i = 0; i < sortList.length; ++i) {
+                if(hold) {
+                    note += ", ";
+                }
+                hold = true;
+                note += sortList[i];
+                if(i + 1 > dropLowest) {
+                    sum += sortList[i];
+                }
+            }
+        } else {
+            for(int i = 0; i < contents.size(); ++i) {
+                if(hold) {
+                    note += ", ";
+                }
+                hold = true;
+                note += contents.get(i);
+                sum += contents.get(i).read();
+            }
+            for(int i = 0; i < dropLowest; ++i) {
+                sum -= sortList[i];
+            }
+        }
+        sum += modifier;            
+        note += " | " + sum;
+        this.note = note;
+    }
+    
     public String getNote() {
         return note;
     }
@@ -85,23 +119,33 @@ public class DieCup implements Serializable{
         contents.clear();
     }
     
-    public int[] roll() {
+    private ArrayList<Integer> roll() {
         ArrayList<Integer> results = new ArrayList<>();
         for(Die d : contents) {
-            d.roll();
-            int temp = 0;
-            while((rerollOnes || explode) && (d.read() == 1 || d.read() == d.size())) {
-                if(rerollOnes && d.read() == 1) {
-                    d.roll();
-                } else if(explode && d.read() == d.size()) {
-                    temp += d.read();
-                    d.roll();
-                } else {
-                    break;
-                }
-            }
-            temp += d.read();
-            results.add(temp);
+            d.roll(rerollOnes, explode);
+            results.add(d.read());
+        }
+        
+        return results;
+    }
+    
+    public int[] roll(boolean sorted) {
+        roll();
+        setNote(sorted);
+        if(sorted) {
+            return sortRolls();
+        }
+        int[] unsorted = new int[contents.size()];
+        for(int i = 0; i < unsorted.length; ++i) {
+            unsorted[i] = contents.get(i).read();
+        }
+        return unsorted;
+    }
+    
+    public int[] sortRolls() {
+        ArrayList<Integer> results = new ArrayList<>();
+        for(Die d : contents) {
+            results.add(d.read());
         }
         
         int[] output = new int[results.size()];
@@ -171,7 +215,7 @@ public class DieCup implements Serializable{
             output = "";
         }
         
-        return output;
+        return output; 
     }
     
 }

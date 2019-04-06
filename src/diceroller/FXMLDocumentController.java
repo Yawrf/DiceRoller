@@ -8,9 +8,13 @@ package diceroller;
 import filewriter.Writer;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +27,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 /**
  *
@@ -57,29 +62,33 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void rollSelected() {
-        try{
-            DieCup dc = (DieCup) list.getSelectionModel().getSelectedItem();
-            list.getSelectionModel().clearSelection();
-            int[] rolls = dc.roll();
-            String note = "";
-            boolean hold = false;
-            int sum = 0;
-            for(int i = 0; i < rolls.length; ++i) {
-                if(hold) {
-                    note += ", ";
-                }
-                hold = true;
-                note += rolls[i];
-                if(i + 1 > dc.getDropLowest()) {
-                    sum += rolls[i];
-                }
-            }
-            sum += dc.getModifier();
-            note += " | " + sum;
-            dc.setNote(note);
-            
+        Random rand = new Random();
+        int count = rand.nextInt(50) + 1;
+        rollSelected(count);
+    }
+    
+    private void rollSelected(int ct) {
+        
+        //<editor-fold>
+        
+        int delay = 50;
+        
+        DieCup dc = (DieCup) list.getSelectionModel().getSelectedItem();
+        list.getSelectionModel().clearSelection();
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis(delay), (ActionEvent event) -> {
+            dc.roll(false);
             updateList();
-        } catch(Exception e) {}
+        })); 
+        tl.setCycleCount(ct);
+        tl.play();
+        Timeline finish = new Timeline(new KeyFrame(tl.getTotalDuration(), (ActionEvent event) -> {
+            dc.roll(true);
+            updateList();
+        }));
+        finish.setCycleCount(1);
+        finish.play();
+        
+        //</editor-fold>
     }
     
     public void removeAll() {
@@ -145,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void updateList() {
-        ObservableList<DieCup> noList = FXCollections.observableArrayList(new ArrayList<DieCup>());
+        ObservableList<DieCup> noList = FXCollections.observableArrayList(new ArrayList<>());
         list.setItems(noList);
         ObservableList<DieCup> cupsList = FXCollections.observableArrayList(ch.getCups());
         list.setItems(cupsList);
@@ -200,7 +209,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         list.setCellFactory(TextFieldListCell.forListView());
-         list.setCellFactory(new Callback<ListView<DieCup>, ListCell<DieCup>>(){
+        list.setCellFactory(new Callback<ListView<DieCup>, ListCell<DieCup>>(){
  
             @Override
             public ListCell<DieCup> call(ListView<DieCup> p) {
@@ -218,7 +227,8 @@ public class FXMLDocumentController implements Initializable {
                     }
  
                 };
-                 
+                cell.setWrapText(true);
+                cell.setPrefWidth(list.getPrefWidth());
                 return cell;
             }
         });
@@ -235,7 +245,7 @@ public class FXMLDocumentController implements Initializable {
             }
         });
         
-        list.setTooltip(new Tooltip("Left Click to Roll, Right Click to Select"));
+        list.setTooltip(new Tooltip("Left Click to Roll, Right Click to Select"));  
         updateSaveList();
     }    
 }
