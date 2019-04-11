@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="DiceRoller.jar" size="14023" download="eager" />
+    <jar href="DiceRoller.jar" size="14080" download="eager" />
     <jar href="lib\FileWriter.jar" size="6401" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="DiceRoller" >
