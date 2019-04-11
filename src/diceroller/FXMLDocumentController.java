@@ -61,12 +61,47 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    public void extendedRollSelected() {
+        
+        if(list.getSelectionModel().getSelectedItem() != null) {
+        
+            int delay = 50;
+            int cycles = 51; // Total Possible rolls as defined in Die.java:rollExtended
+
+            DieCup dc = (DieCup) list.getSelectionModel().getSelectedItem();
+            list.getSelectionModel().clearSelection();
+            Timeline tl = new Timeline(new KeyFrame(Duration.millis(delay), (ActionEvent event) -> {
+                dc.roll(false);
+                updateList();
+            })); 
+            tl.setCycleCount(cycles);
+            tl.play();
+            Timeline finish = new Timeline(new KeyFrame(tl.getTotalDuration(), (ActionEvent event) -> {
+                dc.roll(true);
+                dc.resetRead();
+                updateList();
+            }));
+            finish.setCycleCount(1);
+            finish.play();
+            Timeline rollcheck = new Timeline(new KeyFrame(Duration.millis(delay), (ActionEvent event) -> {
+                if(!dc.getRolling()) {
+                    tl.stop();
+                    finish.jumpTo(finish.getTotalDuration().subtract(Duration.millis(5)));
+                }
+            }));
+            rollcheck.setCycleCount(cycles);
+            rollcheck.play();
+        }
+    }
+    
+    @Deprecated
     public void rollSelected() {
         Random rand = new Random();
         int count = rand.nextInt(50) + 1;
         rollSelected(count);
     }
     
+    @Deprecated
     private void rollSelected(int ct) {
         
         //<editor-fold>
@@ -238,7 +273,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 switch(event.getButton()) {
-                    case PRIMARY: rollSelected();
+                    case PRIMARY: extendedRollSelected();
                         break;
                     case SECONDARY: 
                 }

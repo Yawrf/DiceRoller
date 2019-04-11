@@ -122,7 +122,7 @@ public class DieCup implements Serializable{
     private ArrayList<Integer> roll() {
         ArrayList<Integer> results = new ArrayList<>();
         for(Die d : contents) {
-            d.roll(rerollOnes, explode);
+            d.rollExtended(rerollOnes, explode);
             results.add(d.read());
         }
         
@@ -140,6 +140,21 @@ public class DieCup implements Serializable{
             unsorted[i] = contents.get(i).read();
         }
         return unsorted;
+    }
+    
+    public boolean getRolling() {
+        for(Die d : contents) {
+            if(d.getRolling()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void resetRead() {
+        for(Die d : contents) {
+            d.resetRead();
+        }
     }
     
     public int[] sortRolls() {

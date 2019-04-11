@@ -16,6 +16,10 @@ public class Die implements Serializable{
     
     private final int sides;
     private int lastRoll;
+    private boolean read = true;
+    private boolean rolling = false;
+    private final int cap = 50;
+    private int rolls = 0;
     
     private Random rand = new Random();
     
@@ -42,6 +46,32 @@ public class Die implements Serializable{
         }
         
         return temp;
+    }
+    
+    public boolean rollExtended(boolean reroll, boolean explode) {
+        int temp = roll(reroll, explode, 0);
+        if(read) {
+            if(!rolling) {
+                rolling = true;
+                rolls = rand.nextInt(cap) + 1;
+            }
+            if(rolling && (rolls > 0)) {
+                lastRoll = temp;
+                --rolls;
+            } else if(rolling && rolls == 0) {
+                read = false;
+                rolling = false;
+            }
+        }
+        return rolling;
+    }
+    
+    public void resetRead() {
+        read = true;
+    }
+    
+    public boolean getRolling() {
+        return rolling;
     }
     
     public int read() {
