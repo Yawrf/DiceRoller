@@ -57,7 +57,7 @@ public class FXMLDocumentController implements Initializable {
     public void rollAll() {
         for(int i = 0; i < ch.getCups().size(); ++i) {
             list.getSelectionModel().selectIndices(i);
-            rollSelected();
+            extendedRollSelected();
         }
     }
     
